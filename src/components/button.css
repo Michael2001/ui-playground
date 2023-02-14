@@ -1,0 +1,14 @@
+
+.standard {
+    border: none;
+    border-radius: 6px;
+    padding: 0 24px 0 24px;
+    color: white;
+    background-color: #0063C5;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.standard:hover {
+    background-color: #0054A7;
+}
