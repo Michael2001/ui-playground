@@ -17,7 +17,7 @@ export default function Back() {
 
   return (
     <div id='parentBack' className='center'>
-      <h1>Backend</h1>
+      <h1>Backendd</h1>
       <div id='editText' className='center'>
         <Form id='backendEditForm'>
           <p>
