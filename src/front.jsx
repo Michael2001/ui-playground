@@ -1,19 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import Button from './components/button';
-import { useNavigate, redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { db } from './services/firebase';
+import { getDoc, doc } from 'firebase/firestore';
 
 export default function Front() {
   const navigate = useNavigate();
-  const [text, setText] = useState(localStorage.getItem('text') || 'Example Text');
+  const [title, setTitle] = useState(localStorage.getItem('text') || '');
 
   useEffect(() => {
-    localStorage.setItem('text', text);
-  }, [text]);
+    async function getTitle() {
+      const d = await getData();
+      setTitle(d);
+      localStorage.setItem('text', d);
+    }
+    getTitle();
+  }, []);
 
   return (
     <div id='parentFront' className='center'>
-      <h1 id='title'>{text}</h1>
+      <h1 id='title'>{title}</h1>
       <Button className='standard' text='Go To Backend' onClick={() => navigate('/backend')} />
     </div>
   );
+}
+
+export async function getData() {
+  const docRef = doc(db, 'content', 'home');
+  const docSnap = await getDoc(docRef);
+  return docSnap.data().title;
 }

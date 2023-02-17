@@ -1,0 +1,22 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    list-style: none;
+    text-decoration: none;
+    list-style-type: none;
+  }
+
+  .alert {
+    background-color: #e0e0e0;
+    color: #363636;
+    padding: 10px 20px 10px 20px;
+    border-radius: 50px;
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: 0.75rem;
+    box-shadow: 1px 1px 3px #bdbdbd;
+  }

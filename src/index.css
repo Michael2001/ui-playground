@@ -3,6 +3,9 @@
   margin: 0;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
+  list-style: none;
+  text-decoration: none;
+  list-style-type: none;
 }
 
 #parentFront, #parentBack {
