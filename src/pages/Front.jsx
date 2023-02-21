@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Button from './components/button';
+import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
-import { db } from './services/firebase';
+import { db } from '../services/firebase';
 import { getDoc, doc } from 'firebase/firestore';
 
 export default function Front() {
@@ -20,7 +20,7 @@ export default function Front() {
   return (
     <div id='parentFront' className='center'>
       <h1 id='title'>{title}</h1>
-      <Button className='standard' text='Go To Backend' onClick={() => navigate('/backend')} />
+      <Button className='standard' text='Go To Backend' handleAction={() => navigate('/login')} />
     </div>
   );
 }

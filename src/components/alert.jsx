@@ -1,5 +1,5 @@
 import React, { Component, useEffect } from 'react';
-import './alert.css';
+import './Alert.css';
 
 class Alert extends Component {
   //   static defaultProps = {

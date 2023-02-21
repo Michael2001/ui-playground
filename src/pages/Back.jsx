@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import Button from './components/button';
-import Alert from './components/alert';
+import Button from '../components/Button';
+import Alert from '../components/Alert';
 import { useNavigate, Form } from 'react-router-dom';
-import { getData } from './front';
-import { writeBatch, doc } from 'firebase/firestore';
-import { db } from './services/firebase';
+import { getData } from './Front';
 
 export default function Back() {
+  const navigate = useNavigate();
+  const [formText, setFormText] = useState(localStorage.getItem('text') || '');
+  const [alert, setAlert] = useState(initalVals);
+
   const initalVals = {
     visible: false,
     message: '',
   };
 
-  const navigate = useNavigate();
-  const [formText, setFormText] = useState(localStorage.getItem('text') || '');
-  const [alert, setAlert] = useState(initalVals);
-
+  //Load data from databasae
   useEffect(() => {
     async function getTitle() {
       const d = await getData();
       setFormText(d);
     }
 
+    //Check if the data is already stored locally
     if (localStorage.getItem('text') === null) {
       getTitle();
     } else {
@@ -29,6 +29,7 @@ export default function Back() {
     }
   }, []);
 
+  //Hide alert after it is activited
   useEffect(() => {
     console.log(alert.visible);
     if (alert.visible) {
@@ -39,6 +40,7 @@ export default function Back() {
     }
   }, [alert]);
 
+  //Updating the db based upon text field value
   const handleSubmit = (event) => {
     event.preventDefault();
     localStorage.setItem('text', formText);
@@ -66,6 +68,7 @@ export default function Back() {
           <p>
             <span>Frontend Text</span>
             <input
+              className='input'
               placeholder=''
               aria-label='text'
               type='text'

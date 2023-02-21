@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
-import './button.css';
+import './Button.css';
 
 class Button extends Component {
   static defaultProps = {
     type: 'button',
-    onClick: () => {},
+    handleAction: () => {},
     text: 'Button',
     height: '48px',
   };
 
-  handleClick = (event) => {
-    const { onClick } = this.props;
-    onClick(event);
-  };
-
   render() {
-    const { text, className, type, width, height } = this.props;
+    const { handleAction, text, className, type, width, height } = this.props;
 
     const buttonStyles = {
       width: `${width}`,
@@ -23,7 +18,7 @@ class Button extends Component {
     };
 
     return (
-      <button type={type} className={`${className}`} onClick={this.handleClick} style={buttonStyles}>
+      <button type={type} className={`${className}`} onClick={handleAction} style={buttonStyles}>
         {text}
       </button>
     );
