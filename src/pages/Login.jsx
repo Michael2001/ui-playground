@@ -17,7 +17,7 @@ export default function Login() {
       <p id='signupPrompt'>
         Don't have an account? <Link to='/signup'>Sign Up</Link>
       </p>
-      <Button className='standard' text='Login' handleAction={handleClick} />
+      <Button className='standard' text='Login' handleAction={() => {}} />
     </div>
   );
 }
