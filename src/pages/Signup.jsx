@@ -1,64 +1,74 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../components/Button';
-import { useNavigate, Link } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate, Navigate, Link } from 'react-router-dom';
+import { UserAuth } from '../context/UserAuth';
 
 export default function Signup() {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
+	const { createUser, user } = UserAuth();
 
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+	const [username, setUsername] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleClick = () => {
-    console.log('TEST');
-    const authentication = getAuth();
-    createUserWithEmailAndPassword(authentication, email, password).then((response) => {
-      console.log(response);
-    });
-  };
+	const handleSignup = async (e) => {
+		e.preventDefault();
+		try {
+			await createUser(username, email, password);
+			navigate('/login');
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
-  useEffect(() => {
-    console.log(email);
-  }, [email]);
-
-  return (
-    <div id='login' className='center'>
-      <h1 id='title'>Sign Up</h1>
-      <input
-        placeholder='Username'
-        className='input'
-        onChange={(e) => {
-          setUsername(e.target.value);
-        }}
-      />
-      <input
-        placeholder='Email'
-        className='input'
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-      />
-      <input
-        placeholder='Password'
-        className='input'
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      />
-      <input
-        placeholder='Confirm Password'
-        className='input'
-        id='password'
-        onChange={(e) => {
-          setConfirmPassword(e.target.value);
-        }}
-      />
-      <p id='loginPrompt'>
-        Already have an account? <Link to='/login'>Log in</Link>
-      </p>
-      <Button className='standard' text='Sign Up' handleAction={handleClick} />
-    </div>
-  );
+	return user ? (
+		<Navigate to='/dashboard' />
+	) : (
+		<div id='login' className='center'>
+			<h1 id='title'>Sign Up</h1>
+			<form className='center' onSubmit={handleSignup}>
+				<input
+					placeholder='Username'
+					className='input'
+					autoComplete='username'
+					onChange={(e) => {
+						setUsername(e.target.value);
+					}}
+				/>
+				<input
+					placeholder='Email'
+					className='input'
+					type='email'
+					autoComplete='email'
+					onChange={(e) => {
+						setEmail(e.target.value);
+					}}
+				/>
+				<input
+					placeholder='Password'
+					className='input'
+					type='password'
+					autoComplete='current-password'
+					onChange={(e) => {
+						setPassword(e.target.value);
+					}}
+				/>
+				<input
+					placeholder='Confirm Password'
+					className='input'
+					id='password'
+					type='password'
+					autoComplete='current-password'
+					onChange={(e) => {
+						setConfirmPassword(e.target.value);
+					}}
+				/>
+				<p id='loginPrompt'>
+					Already have an account? <Link to='/login'>Log in</Link>
+				</p>
+				<Button className='standard' text='Sign Up' type='submit' />
+			</form>
+		</div>
+	);
 }

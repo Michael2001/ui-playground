@@ -62,3 +62,9 @@
 #signupPrompt, #loginPrompt {
   margin-bottom: 20px;
 }
+
+.logout {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+}
