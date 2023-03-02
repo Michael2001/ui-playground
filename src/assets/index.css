@@ -30,7 +30,7 @@
   flex-direction: column;
 }
 
-#backendEditForm input {
+.input {
   height: 24px;
   border-radius: 6px;
   border: 1px solid black;

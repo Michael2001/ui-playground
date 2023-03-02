@@ -1,0 +1,8 @@
+.valid {
+    flex: 1 1 30%;
+    padding: 1rem;
+}
+
+.hide {
+    display: none;
+}

@@ -13,7 +13,7 @@ import Login from './pages/Login';
 import Root from './pages/Root';
 import Missing from './pages/Missing';
 import './assets/index.css';
-import ProtectedRoute from './features/authentication/components/ProtectedRoute';
+import ProtectedRoute from './components/ProtectedRoute';
 import { AuthContextProvider } from './context/UserAuth';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

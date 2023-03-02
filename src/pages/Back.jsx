@@ -3,7 +3,7 @@ import Button from '../components/Button';
 import Alert from '../components/Alert';
 import { useNavigate, Form } from 'react-router-dom';
 import { getData } from './Front';
-import { writeBatch, doc } from 'firebase/firestore';
+import { writeBatch, doc, terminate } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { UserAuth } from '../context/UserAuth';
 import '../assets/index.css';
@@ -26,6 +26,7 @@ export default function Back() {
 			console.log(error.message);
 		}
 	};
+	terminate;
 
 	//Load data from databasae
 	useEffect(() => {

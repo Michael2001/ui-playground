@@ -32,6 +32,7 @@ export default function Login() {
 					type='email'
 					id='email'
 					autoComplete='email'
+					required
 					onChange={(e) => setEmail(e.target.value)}
 				/>
 				<input
@@ -39,6 +40,7 @@ export default function Login() {
 					className='input'
 					type='password'
 					id='password'
+					required
 					autoComplete='current-password'
 					onChange={(e) => setPassword(e.target.value)}
 				/>
