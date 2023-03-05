@@ -1,17 +1,19 @@
-import React, { Component, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './Alert.css';
 
-class Alert extends Component {
-  //   static defaultProps = {
-  //     message: 'Default Text',
-  //     visible: false,
-  //   };
+function Alert({ visible, message }) {
+	const [showAlert, setShowAlert] = useState(false);
 
-  render() {
-    const { message, visible } = this.props;
+	useEffect(() => {
+		if (visible) {
+			setShowAlert(true);
+			setTimeout(() => {
+				setShowAlert(false);
+			}, 2000);
+		}
+	}, [visible]);
 
-    return <div>{visible && <p className='alert'>{message}</p>}</div>;
-  }
+	return showAlert && <div className='alert'>{showAlert && <p>{message}</p>}</div>;
 }
 
 export default Alert;

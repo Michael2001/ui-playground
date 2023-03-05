@@ -16,14 +16,12 @@ export const AuthContextProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 
 	const createUser = async (username, email, password) => {
-		const u = await setUser(createUserWithEmailAndPassword(auth, email, password));
-		return u;
+		return await createUserWithEmailAndPassword(auth, email, password);
 	};
 
 	const signIn = async (email, password) => {
 		setPersistence(auth, browserSessionPersistence);
-		const u = await setUser(signInWithEmailAndPassword(auth, email, password));
-		return u;
+		return await signInWithEmailAndPassword(auth, email, password);
 	};
 
 	const logout = () => {
@@ -31,9 +29,9 @@ export const AuthContextProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
-		const unsubscribe = onAuthStateChanged(auth, (user) => {
-			if (user) {
-				setUser(user);
+		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+			if (currentUser) {
+				setUser(currentUser);
 			} else {
 				setUser(null);
 			}

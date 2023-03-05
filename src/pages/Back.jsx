@@ -10,13 +10,9 @@ import '../assets/index.css';
 
 export default function Back() {
 	const { logout, user } = UserAuth();
-	const initalVals = {
-		visible: false,
-		message: '',
-	};
 	const navigate = useNavigate();
+	const [alert, setAlert] = useState({});
 	const [formText, setFormText] = useState(localStorage.getItem('text') || '');
-	const [alert, setAlert] = useState(initalVals);
 
 	const handleLogout = async () => {
 		try {
@@ -43,15 +39,6 @@ export default function Back() {
 		}
 	}, []);
 
-	//Hide alert after it is activited
-	useEffect(() => {
-		if (alert.visible) {
-			setTimeout(() => {
-				setAlert({ visible: false });
-			}, 2000);
-		}
-	}, [alert]);
-
 	//Updating the db based upon text field value
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -63,10 +50,10 @@ export default function Back() {
 				const titleRef = doc(db, 'content', 'home');
 				batch.update(titleRef, { title: `${formText}` });
 				await batch.commit();
-				setAlert({ visible: true, message: 'Update Succssful' });
+				setAlert('Update Succssful');
 			} catch (error) {
 				console.log('Error updating document: ', error);
-				setAlert({ visible: true, message: 'Update Failed' });
+				setAlert('Update Failed');
 			}
 		}
 		updateTitle();
@@ -75,39 +62,37 @@ export default function Back() {
 	return (
 		<div id='parentBack' className='center'>
 			<h1>Backend</h1>
-			<div id='editText' className='center'>
-				<Form id='backendEditForm'>
-					<p>
-						<span>Frontend Text</span>
-						<input
-							className='input'
-							placeholder=''
-							aria-label='text'
-							type='text'
-							name='text'
-							value={formText}
-							onChange={(event) => setFormText(event.target.value)}
-						/>
-						<Button
-							className='standard'
-							id='update'
-							text='Update'
-							type='submit'
-							height='32px'
-							handleAction={handleSubmit}
-						/>
-					</p>
-				</Form>
+			<div className='center'>
+				<div id='editText'>
+					<Form id='backendEditForm'>
+						<p>
+							<span>Frontend Text</span>
+							<input
+								className='input'
+								placeholder=''
+								aria-label='text'
+								type='text'
+								name='text'
+								value={formText}
+								onChange={(event) => setFormText(event.target.value)}
+							/>
+							<Button
+								className='standard'
+								id='update'
+								text='Update'
+								type='submit'
+								height='32px'
+								handleAction={handleSubmit}
+							/>
+						</p>
+					</Form>
+				</div>
+				<div id='editImage'></div>
 			</div>
-			<Button className='standard' text='Go To Frontend' handleAction={() => navigate('/')} />
-			<Button className='standard logout' text='Logout' handleAction={handleLogout} />
+			<Button text='Go To Frontend' handleAction={() => navigate('/')} />
+			<Button id='logout' text='Logout' handleAction={handleLogout} />
 
-			<Alert
-				text='Update Sucessful'
-				visible={alert.visible}
-				message={alert.message}
-				className='alert'
-			/>
+			<Alert message={alert} />
 		</div>
 	);
 }

@@ -1,22 +1,24 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import './Check.css';
 
-export default function Check(props) {
-	console.log(props.condition1);
-	console.log(props.condition2);
-	console.log(props.condition3);
-	return (
-		<label htmlFor={props.condition3}>
-			<FontAwesomeIcon
-				icon={faCircleCheck}
-				className={props.condition1 && !props.condition2 ? 'valid' : 'hide'}
-			/>
-			<FontAwesomeIcon
-				icon={faCircleXmark}
-				className={!props.condition1 && !props.condition2 && props.condition3 ? 'valid' : 'hide'}
-			/>
-		</label>
-	);
+class Check extends Component {
+	render() {
+		const { condition1, condition2, condition3, className } = this.props;
+		return (
+			<label htmlFor={condition3} className={className}>
+				<FontAwesomeIcon
+					icon={faCircleCheck}
+					className={condition1 && !condition2 ? 'valid' : 'hide'}
+				/>
+				<FontAwesomeIcon
+					icon={faCircleXmark}
+					className={!condition1 && !condition2 && condition3 ? 'valid' : 'hide'}
+				/>
+			</label>
+		);
+	}
 }
+
+export default Check;

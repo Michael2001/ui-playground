@@ -2,10 +2,10 @@ import React, { useRef, useState, useEffect } from 'react';
 import Button from '../components/Button';
 import { useNavigate, Navigate, Link } from 'react-router-dom';
 import { UserAuth } from '../context/UserAuth';
-import Check from '../components/Check';
+import FieldInput from '../components/FieldInput';
 
 const NAME_REGEX = /^[A-Za-z0-9\s]{2,}$/;
-const PWD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+const PWD_REGEX = /^(?=.*[A-Z]).{8}$/;
 const EMIAL_REGEX =
 	/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 
@@ -13,8 +13,7 @@ export default function Signup() {
 	const navigate = useNavigate();
 	const { createUser, user } = UserAuth();
 
-	const nameRef = useRef();
-	const errRef = useRef();
+	const inputRef = useRef(null);
 
 	const [username, setUsername] = useState('');
 	const [validUsername, setValidUsername] = useState(false);
@@ -33,7 +32,9 @@ export default function Signup() {
 	const [focusConfirmPassword, setFocusConfirmPassword] = useState(false);
 
 	useEffect(() => {
-		nameRef.current.focus();
+		if (inputRef.current) {
+			inputRef.current.focus();
+		}
 	}, []);
 
 	useEffect(() => {
@@ -60,10 +61,6 @@ export default function Signup() {
 		setValidConfirmPassword(result2);
 	}, [password, confirmPassword]);
 
-	// useEffect(() => {
-	// 	setErrMsg('');
-	// }, [username, email, password, confirmPassword]);
-
 	const handleSignup = async (e) => {
 		e.preventDefault();
 		try {
@@ -79,69 +76,68 @@ export default function Signup() {
 	) : (
 		<div id='login' className='center'>
 			<h1 id='title'>Sign Up</h1>
-			<form className='center' onSubmit={handleSignup}>
-				<input
+			<form className='center form' onSubmit={handleSignup}>
+				<FieldInput
 					placeholder='Username'
 					className='input'
+					type='text'
 					autoComplete='username'
-					ref={nameRef}
-					required
-					onFocus={() => setFocusUsername(true)}
-					onBlur={() => setFocusUsername(false)}
-					onChange={(e) => {
-						setUsername(e.target.value);
-					}}
+					fieldRef={inputRef}
+					setFocus={setFocusUsername}
+					setValue={setUsername}
+					validValue={validUsername}
+					focusValue={focusUsername}
+					value={username}
+					message={['Usernames must be at least 2 characters']}
 				/>
-				<Check condition1={validUsername} condition2={focusUsername} condition3={username} />
-				<input
+				<FieldInput
 					placeholder='Email'
 					className='input'
 					type='email'
 					autoComplete='email'
-					required
-					onFocus={() => setFocusEmail(true)}
-					onBlur={() => setFocusEmail(false)}
-					onChange={(e) => {
-						setEmail(e.target.value);
-					}}
+					setFocus={setFocusEmail}
+					setValue={setEmail}
+					validValue={validEmail}
+					focusValue={focusEmail}
+					value={email}
+					message={['Email looks a bit off']}
 				/>
-				<Check condition1={validEmail} condition2={focusEmail} condition3={email} />
-				<input
+				<FieldInput
 					placeholder='Password'
 					className='input'
 					type='password'
-					autoComplete='current-password'
-					required
-					onFocus={() => setFocusPassword(true)}
-					onBlur={() => setFocusPassword(false)}
-					onChange={(e) => {
-						setPassword(e.target.value);
-					}}
+					autoComplete='password'
+					setFocus={setFocusPassword}
+					setValue={setPassword}
+					validValue={validPassword}
+					focusValue={focusPassword}
+					value={password}
+					message={['Password needs at least 8 characters', 'Password needs a capital letter']}
 				/>
-				<Check condition1={validPassword} condition2={focusPassword} condition3={password} />
-				<input
+				<FieldInput
 					placeholder='Confirm Password'
 					className='input'
-					id='password'
 					type='password'
 					autoComplete='current-password'
-					required
-					onFocus={() => setFocusConfirmPassword(true)}
-					onBlur={() => setFocusConfirmPassword(false)}
-					onChange={(e) => {
-						setConfirmPassword(e.target.value);
-					}}
-				/>
-				<Check
-					condition1={validConfirmPassword}
-					condition2={focusConfirmPassword}
-					condition3={confirmPassword}
+					setFocus={setFocusConfirmPassword}
+					setValue={setConfirmPassword}
+					validValue={validConfirmPassword}
+					focusValue={focusConfirmPassword}
+					value={confirmPassword}
+					message={['Passwords do not match']}
 				/>
 				<p id='loginPrompt'>
 					Already have an account? <Link to='/login'>Log in</Link>
 				</p>
 				<Button className='standard' text='Sign Up' type='submit' />
 			</form>
+			<Button
+				id='goBack'
+				text='Go Back'
+				handleAction={() => {
+					navigate('/');
+				}}
+			/>
 		</div>
 	);
 }

@@ -20,7 +20,14 @@ export default function Front() {
 	return (
 		<div id='parentFront' className='center'>
 			<h1 id='title'>{title}</h1>
-			<Button className='standard' text='Go To Backend' handleAction={() => navigate('/login')} />
+			<Button
+				id=''
+				text='Go To Backend'
+				size='medium'
+				mode='default'
+				disabled={false}
+				handleAction={() => navigate('/login')}
+			/>
 		</div>
 	);
 }
